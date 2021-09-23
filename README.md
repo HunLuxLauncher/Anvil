@@ -9,4 +9,4 @@
 - Use Microsoft's [Coding guidelines](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
 - Keep your PRs goal-specific and create separate branches for them.
 
-Anvil © 2021 by Czompi Software is licensed under CC BY-ND 4.0 
+Anvil © 2021 by Czompi Software is licensed under Creative Commons Zero v1.0 Universal
