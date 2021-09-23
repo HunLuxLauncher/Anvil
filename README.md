@@ -8,3 +8,5 @@
 - Do not send a PR for code formatting. I'll make your PR hard to read.
 - Use Microsoft's [Coding guidelines](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
 - Keep your PRs goal-specific and create separate branches for them.
+
+Anvil © 2021 by Czompi Software is licensed under CC BY-ND 4.0 
