@@ -1,3 +1,4 @@
+using Anvil.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -6,9 +7,27 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddApiVersioning();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new() { Title = "Anvil", Version = "v1" });
+    c.SwaggerDoc("v1", new()
+    {
+        Title = "Anvil",
+        Version = "v1",
+        Description = "A custom HunLux Launcher modpack host for those to like to self-host stuff. Support for Technic Launcher coming when the main goal of this project reached.",
+        TermsOfService = new Uri("https://hunluxlauncher.hu/tos"),
+        Contact = new OpenApiContact
+        {
+            Name = "Czompi",
+            Email = "developer@czompi.hu",
+            Url = new Uri("https://czompi.hu"),
+        },
+        License = new OpenApiLicense
+        {
+            Name = "CC0",
+            Url = new Uri("https://creativecommons.org/publicdomain/zero/1.0/"),
+        }
+    });
 });
 
 builder.Services.AddDbContext<AnvilDatabaseContext>(options =>
@@ -27,6 +46,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.UseApiVersioning();
 app.MapControllers();
 
 app.Run();

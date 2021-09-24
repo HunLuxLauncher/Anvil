@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Anvil.Database.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
+namespace Anvil.Database;
 internal class AnvilDatabaseContext : DbContext
 {
     public AnvilDatabaseContext([NotNull] DbContextOptions options) : base(options)
