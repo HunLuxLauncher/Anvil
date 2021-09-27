@@ -1,0 +1,13 @@
+/****** Script for SelectTopNRows command from SSMS  ******/
+SELECT TOP (1000) [Id]
+      ,[Name]
+      ,[Creator]
+      ,[Contributors]
+      ,[IconAssetUrl]
+      ,[IconAssetHash]
+      ,[LogoAssetUrl]
+      ,[LogoAssetHash]
+      ,[BackgroundAssetUrl]
+      ,[BackgroundAssetHash]
+	  ,[VisibleOnPublicList]
+  FROM [Anvil.Test].[dbo].[Packs]

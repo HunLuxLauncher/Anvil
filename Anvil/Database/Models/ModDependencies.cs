@@ -1,6 +1,6 @@
 ﻿
 namespace Anvil.Database.Models;
 
-public class ModDependencies
+public class PackDependencies
 {
 }

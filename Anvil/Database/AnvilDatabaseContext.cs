@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Anvil.Database;
-internal class AnvilDatabaseContext : DbContext
+public class AnvilDatabaseContext : DbContext
 {
     public AnvilDatabaseContext([NotNull] DbContextOptions options) : base(options)
     {
@@ -12,6 +12,7 @@ internal class AnvilDatabaseContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         //use this to configure the contex
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -19,8 +20,8 @@ internal class AnvilDatabaseContext : DbContext
         //use this to configure the model
     }
 
-    public DbSet<ForgeVersions> ForgeVersions { get; set; }
-    public DbSet<Mods> Mods { get; set; }
-    public DbSet<ModVersions> ModVersions { get; set; }
-    public DbSet<ModDependencies> ModDependencies { get; set; }
+    //public DbSet<ForgeVersions> ForgeVersions { get; set; }
+    public DbSet<Packs> Packs { get; set; }
+    public DbSet<PackVersions> PackVersions { get; set; }
+    //public DbSet<PackDependencies> PackDependencies { get; set; }
 }

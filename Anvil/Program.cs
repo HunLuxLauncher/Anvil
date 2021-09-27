@@ -15,24 +15,26 @@ builder.Services.AddSwaggerGen(c =>
         Title = "Anvil",
         Version = "v1",
         Description = "A custom HunLux Launcher modpack host for those to like to self-host stuff. Support for Technic Launcher coming when the main goal of this project reached.",
-        TermsOfService = new Uri("https://hunluxlauncher.hu/tos"),
-        Contact = new OpenApiContact
+        TermsOfService = new("https://hunluxlauncher.hu/tos"),
+        Contact = new()
         {
             Name = "Czompi",
             Email = "developer@czompi.hu",
-            Url = new Uri("https://czompi.hu"),
+            Url = new("https://czompi.hu"),
         },
-        License = new OpenApiLicense
+        License = new()
         {
             Name = "CC0",
-            Url = new Uri("https://creativecommons.org/publicdomain/zero/1.0/"),
+            Url = new("https://creativecommons.org/publicdomain/zero/1.0/"),
         }
     });
 });
 
 builder.Services.AddDbContext<AnvilDatabaseContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AnvilDatabaseContext"))
-);
+{
+    options.UseSqlServer("Data Source=SQL1;Initial Catalog=Anvil.Test;Persist Security Info=True;User ID=sa;Password=#7$Qp3iWRLyB76PP");
+}, contextLifetime: ServiceLifetime.Transient, optionsLifetime: ServiceLifetime.Singleton);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

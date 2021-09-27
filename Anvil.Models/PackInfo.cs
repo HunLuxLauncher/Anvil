@@ -10,11 +10,14 @@ public class PackInfo : ErrorResponse
     
     public string Description { get; set; }
     
-    public string Author { get; set; }
+    public string Creator { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public IReadOnlyList<string> Contributors { get; set; } = new List<string>();
-    
+    public IReadOnlyList<NewsItem> News { get; set; } = null;
+
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string> Contributors { get; set; } = null;
+
     public IReadOnlyDictionary<AssetType, Resource> Assets { get; set; }
     
     public IReadOnlyDictionary<VersionType, string> Latest { get; set; }

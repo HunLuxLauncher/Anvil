@@ -2,6 +2,6 @@
 
 public enum VersionType
 {
-    Release,
-    Snapshot
+    Stable,
+    Preview
 }
