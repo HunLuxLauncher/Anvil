@@ -36,6 +36,7 @@ namespace Anvil.Controllers
         public IActionResult GetPackInfo(string id)
         {
             var packTable = _context.Packs.Where(pack =>pack.Id.ToLower().Equals(id.ToLower())).ToList();
+            var packNewsTable = _context.PackNews.Where(pack =>pack.PackId.ToLower().Equals(id.ToLower())).ToList();
             var packVersionsTable = _context.PackVersions.Where(pack =>pack.PackId.ToLower().Equals(id.ToLower())).ToList();
 
             if (!packTable.Any()) return NotFound(new ErrorResponse
@@ -46,6 +47,7 @@ namespace Anvil.Controllers
             var now = DateTime.Now;
             now = new(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
             var data = packTable.First();
+            var news = packNewsTable;
             return Ok(new PackInfo
             {
                 Id = data.Id,
@@ -53,29 +55,16 @@ namespace Anvil.Controllers
                 Description = data.Description,
                 Creator = data.Creator,
                 Contributors = data.Contributors is not null ? (data.Contributors.Contains(';') ? data.Contributors.Split(";").ToList() : new List<string> { data.Contributors }) : null,
-                News = new List<NewsItem>() //TODO: Add news from DB
+                News = news.Count is 0 ? null: news.Select(x => new NewsItem()
                 {
-                    new()
-                    {
-                        Author = "Czompi",
-                        Avatar = "https://minotar.net/avatar/Czompi/64",
-                        Name = "Version 1.0.1-Pre2 released in preview branch",
-                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore. Magna aliqua:\n- Diam quam nulla\n- Porttitor massa\n- Id neque aliquam",
-                        OnlyIn = VersionType.Preview,
-                        PostTime = now.AddDays(-2),
-                        Url = new($"https://packs.hunluxlauncher.hu/en-us/{id}/?changelog=1.0.0-Pre2")
-                    },
-                    new()
-                    {
-                        Author = "Czompi",
-                        Avatar = "https://minotar.net/avatar/Czompi/64",
-                        Name = "Version 1.0.0 released in stable branch",
-                        Description = "Tristique nulla aliquet enim tortor at auctor urna nunc id. Vitae auctor eu augue ut:\n- Lectus arcu\n- Bibendum",
-                        OnlyIn = VersionType.Stable,
-                        PostTime = now.AddDays(-17),
-                        Url = new($"https://packs.hunluxlauncher.hu/en-us/{id}/?changelog=1.0.0")
-                    }
-                },
+                    Author = x.Author,
+                    Avatar = x.Avatar is null ? $"https://minotar.net/avatar/{x.Author}/64" : x.Avatar,
+                    Name = x.Title,
+                    Description = x.Description,
+                    OnlyIn = x.OnlyIn.ToEnum<VersionType>(),
+                    PostTime = x.PostTime,
+                    Url = x.Url is null ? new($"https://packs.hunluxlauncher.hu/en-us/{id}/?changelog={x.Version.Name}") : new(x.Url)
+                }).ToList(),
                 Assets = new Dictionary<AssetType, Resource>() {
                     {
                         AssetType.Icon,
@@ -91,7 +80,7 @@ namespace Anvil.Controllers
                     }
                 },
                 Latest = packVersionsTable.ToVersionTypeDictionary(),
-                Versions = packVersionsTable.Select(pv => new KeyValuePair<string, string>(pv.Name, pv.Hash?? pv.CalculateHash($"{Request.Scheme}://{Request.Host.Value}"))).ToDictionary(x=>x.Key,x=>x.Value)
+                Versions = packVersionsTable.Select(pv => new KeyValuePair<string, string>(pv.Name, pv.Hash ?? pv.CalculateHash($"{Request.Scheme}://{Request.Host.Value}"))).ToDictionary(x => x.Key, x => x.Value)
             });
         }
 
@@ -101,6 +90,7 @@ namespace Anvil.Controllers
         {
             var packTable = _context.Packs.Where(pack => pack.Id.ToLower().Equals(id.ToLower())).ToList();
             var packVersionsTable = _context.PackVersions.Where(pack => pack.PackId.ToLower().Equals(id.ToLower()) && pack.Name.ToLower().Equals(version.ToLower())).ToList();
+            var packDependenciesTable = _context.PackDependencies.Where(pack => pack.PackId.ToLower().Equals(id.ToLower()) && pack.Version.Name.ToLower().Equals(version.ToLower())).ToList();
             if (!packTable.Any()) return NotFound(new ErrorResponse
             {
                 Error = "PackNotFoundException",
@@ -117,14 +107,11 @@ namespace Anvil.Controllers
                 Id = $"{pv.PackId}:{pv.Name}",
                 UpdateTime = pv.UpdateTime,
                 ReleaseTime = pv.ReleaseTime,
-                Dependencies = new List<Dependency>()
+                Dependencies = packDependenciesTable.Count is 0 ? null:packDependenciesTable.Select(dependency => new Dependency
                 {
-                    new()
-                    {
-                        Id ="net.minecraftforge:forge:1.16.5-36.2.5",
-                        Hash= "hash-of-forge"
-                    }
-                }
+                    Id = $"{dependency.Mod.Name}:{dependency.ModVersion.Name}",
+                    Hash = $"{dependency.ModVersion.Hash}"
+                }).ToList()
             });
         }
     }

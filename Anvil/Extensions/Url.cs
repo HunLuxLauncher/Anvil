@@ -23,7 +23,7 @@ namespace Anvil.Extensions
         {
             try
             {
-                T value1 = (T)Enum.Parse(typeof(T), @this, true);
+                T value1 = @this.ToEnum<T>();
                 return value1.Equals(value2);
             }
             catch (Exception ex)
@@ -32,10 +32,22 @@ namespace Anvil.Extensions
                 return false;
             }
         }
+        public static T ToEnum<T>(this string @this)
+        {
+            try
+            {
+                return (T)Enum.Parse(typeof(T), @this, true);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return default;
+            }
+        }
         
-        public static string CalculateHash(this PackVersions @this, string baseUrl)=>new Uri($"{baseUrl.TrimEnd('/')}/v1/pack/{@this.Pack.Id}/{@this.Name}").GetHashFromUrl();
+        public static string CalculateHash(this PackVersion @this, string baseUrl)=>new Uri($"{baseUrl.TrimEnd('/')}/v1/pack/{@this.Pack.Id}/{@this.Name}").GetHashFromUrl();
         
-        public static KeyValuePair<VersionType, string> ToVersionTypeKeyValuePair(this ICollection<PackVersions> @this, VersionType type)
+        public static KeyValuePair<VersionType, string> ToVersionTypeKeyValuePair(this ICollection<PackVersion> @this, VersionType type)
         {
             try
             {
@@ -47,12 +59,12 @@ namespace Anvil.Extensions
                 return new(type, null);
             }
         }
-        public static Dictionary<VersionType, string> ToVersionTypeDictionary(this ICollection<PackVersions> @this) => new List<KeyValuePair<VersionType, string>>
+        public static Dictionary<VersionType, string> ToVersionTypeDictionary(this ICollection<PackVersion> @this) => new List<KeyValuePair<VersionType, string>>
         {
             @this.ToVersionTypeKeyValuePair(VersionType.Stable),
             @this.ToVersionTypeKeyValuePair(VersionType.Preview)
         }.ToDictionary(x => x.Key, x => x.Value);
 
-        public static Dictionary<string, string> ToPackListDictionary(this ICollection<Packs> @this, string baseUrl) => @this.Select(x=>new KeyValuePair<string, string>(x.Id, new Uri($"{baseUrl.TrimEnd('/')}/v1/pack/{x.Id}").GetHashFromUrl())).ToDictionary(x => x.Key, x => x.Value);
+        public static Dictionary<string, string> ToPackListDictionary(this ICollection<Pack> @this, string baseUrl) => @this.Select(x=>new KeyValuePair<string, string>(x.Id, new Uri($"{baseUrl.TrimEnd('/')}/v1/pack/{x.Id}").GetHashFromUrl())).ToDictionary(x => x.Key, x => x.Value);
     }
 }

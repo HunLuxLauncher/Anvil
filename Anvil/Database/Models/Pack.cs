@@ -1,7 +1,7 @@
 ﻿
 namespace Anvil.Database.Models;
 
-public class Packs
+public class Pack
 {
     public string Id { get; set; }
 

@@ -16,11 +16,9 @@ GO
 CREATE TABLE [dbo].[PackDependencies](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[PackId] [varchar](64) NULL,
-	[VersionId] [int] NULL,
-	[Name] [varchar](128) NULL,
-	[Version] [varchar](32) NULL,
-	[RepositoryUrl] [varchar](512) NULL,
-	[Hash] [varchar](40) NULL,
+	[PackVersionId] [int] NULL,
+	[ModId] [varchar](64) NULL,
+	[ModVersionId] [int] NULL,
  CONSTRAINT [PK_PackDependencies] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -32,6 +30,14 @@ ALTER TABLE [dbo].[PackDependencies]  WITH CHECK ADD  CONSTRAINT [FK_PackDepende
 REFERENCES [dbo].[Packs] ([Id])
 GO
 
-ALTER TABLE [dbo].[PackDependencies]  WITH CHECK ADD  CONSTRAINT [FK_PackDependencies_VersionId] FOREIGN KEY([VersionId])
+ALTER TABLE [dbo].[PackDependencies]  WITH CHECK ADD  CONSTRAINT [FK_PackDependencies_VersionId] FOREIGN KEY([PackVersionId])
 REFERENCES [dbo].[PackVersions] ([Id])
+GO
+
+ALTER TABLE [dbo].[PackDependencies]  WITH CHECK ADD  CONSTRAINT [FK_PackDependencies_ModId] FOREIGN KEY([ModId])
+REFERENCES [dbo].[Mods] ([Id])
+GO
+
+ALTER TABLE [dbo].[PackDependencies]  WITH CHECK ADD  CONSTRAINT [FK_PackDependencies_ModVersionId] FOREIGN KEY([ModVersionId])
+REFERENCES [dbo].[ModVersions] ([Id])
 GO

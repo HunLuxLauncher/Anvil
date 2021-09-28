@@ -21,7 +21,10 @@ public class AnvilDatabaseContext : DbContext
     }
 
     //public DbSet<ForgeVersions> ForgeVersions { get; set; }
-    public DbSet<Packs> Packs { get; set; }
-    public DbSet<PackVersions> PackVersions { get; set; }
-    //public DbSet<PackDependencies> PackDependencies { get; set; }
+    public DbSet<Pack> Packs { get; set; }
+    public DbSet<Mod> Mods { get; set; }
+    public DbSet<ModVersion> ModVersions { get; set; }
+    public DbSet<PackNewsItem> PackNews { get; set; }
+    public DbSet<PackVersion> PackVersions { get; set; }
+    public DbSet<PackDependency> PackDependencies { get; set; }
 }

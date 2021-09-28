@@ -1,7 +1,7 @@
 ﻿
 namespace Anvil.Database.Models;
 
-public class PackVersions
+public class PackVersion
 {
     public int Id {  get; set; }
     
@@ -16,5 +16,5 @@ public class PackVersions
     public string Type {  get; set; }
     public string Hash {  get; set; }
     
-    public virtual Packs Pack {  get; set; }
+    public virtual Pack Pack {  get; set; }
 }
