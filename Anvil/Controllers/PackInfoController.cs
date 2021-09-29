@@ -36,7 +36,7 @@ namespace Anvil.Controllers
         public IActionResult GetPackInfo(string id)
         {
             var packTable = _context.Packs.Where(pack =>pack.Id.ToLower().Equals(id.ToLower())).ToList();
-            var packNewsTable = _context.PackNews.Where(pack =>pack.PackId.ToLower().Equals(id.ToLower())).ToList();
+            //var packNewsTable = _context.PackNews.Where(pack =>pack.PackId.ToLower().Equals(id.ToLower())).ToList();
             var packVersionsTable = _context.PackVersions.Where(pack =>pack.PackId.ToLower().Equals(id.ToLower())).ToList();
 
             if (!packTable.Any()) return NotFound(new ErrorResponse
@@ -47,7 +47,7 @@ namespace Anvil.Controllers
             var now = DateTime.Now;
             now = new(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second);
             var data = packTable.First();
-            var news = packNewsTable;
+            //var news = packNewsTable;
             return Ok(new PackInfo
             {
                 Id = data.Id,
@@ -55,7 +55,7 @@ namespace Anvil.Controllers
                 Description = data.Description,
                 Creator = data.Creator,
                 Contributors = data.Contributors is not null ? (data.Contributors.Contains(';') ? data.Contributors.Split(";").ToList() : new List<string> { data.Contributors }) : null,
-                News = news.Count is 0 ? null: news.Select(x => new NewsItem()
+                /*News = news.Count is 0 ? null: news.Select(x => new NewsItem()
                 {
                     Author = x.Author,
                     Avatar = x.Avatar is null ? $"https://minotar.net/avatar/{x.Author}/64" : x.Avatar,
@@ -64,7 +64,7 @@ namespace Anvil.Controllers
                     OnlyIn = x.OnlyIn.ToEnum<VersionType>(),
                     PostTime = x.PostTime,
                     Url = x.Url is null ? new($"https://packs.hunluxlauncher.hu/en-us/{id}/?changelog={x.Version.Name}") : new(x.Url)
-                }).ToList(),
+                }).ToList(),*/
                 Assets = new Dictionary<AssetType, Resource>() {
                     {
                         AssetType.Icon,

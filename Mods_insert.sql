@@ -1,6 +1,7 @@
 USE [Anvil.Test]
 GO
 INSERT INTO [dbo].[Mods]([Id],[Name],[Description],[Author],[UpdateUrl]) VALUES
+('forge', 'Minecraft Forge', '', '', 'https://addons-ecs.forgesvc.net/api/v2/minecraft/modloader'),
 ('abnormals_core', 'Abnormals Core', 'The library mod used by all Abnormals mods. Adds support for various types of blocks, helps with registering, and adds tons of misc. utils.\n    Also comes with Endimator, an animation library that supports data-driven and coded animations.\n', 'Team Abnormals', ''),
 ('aquaculture', 'Aquaculture 2', 'Welcome to Aquaculture! An expansion of Minecraft''s fishing system.\n', 'Shadowclaimer, Girafi', ''),
 ('architectury', 'Architectury', 'A intermediary api aimed to ease developing multiplatform mods.\n', 'shedaniel', ''),

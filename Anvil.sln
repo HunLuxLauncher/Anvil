@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31710.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anvil", "Anvil\Anvil.csproj", "{E9C890EE-4E82-436C-84F4-C51A5CB746C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anvil.Models", "Anvil.Models\Anvil.Models.csproj", "{80524103-874A-454F-AB0F-1206411B0D59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anvil.Models", "Anvil.Models\Anvil.Models.csproj", "{80524103-874A-454F-AB0F-1206411B0D59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
